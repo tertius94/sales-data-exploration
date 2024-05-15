@@ -1,7 +1,7 @@
 # Exploração de dados de vendas.
 
 ## Introdução
-Análise de vendas em um banco de dados PostgreSQL, com o objetivo de descobrir insights diversos. Identificar os produtos mais vendidos, os maiores clientes e a taxa de crescimento das vendas.
+Análise de vendas em um banco de dados usando SQL, com o objetivo de descobrir insights diversos. Identificar os produtos mais vendidos, os maiores clientes e a taxa de crescimento das vendas.
 
 Neste banco de dados, temos registros de pedidos de diferentes tipos de papel feitos por empresas como Walmart, Microsoft, entre outras. Podemos ver quanto de cada tipo de papel foi encomendado, quanto foi gasto, quem foi responsável pelo pedido, em qual região a empresa está localizada e as datas dos diferentes eventos da web realizados por cada empresa.
 
