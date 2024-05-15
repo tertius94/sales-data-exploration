@@ -1,11 +1,12 @@
-/*1.Provide a table that provides the region for each sales_rep along with their associated accounts.
-This time only for the Midwest region. Sort the accounts alphabetically (A-Z) according to account name.*/
+/*1. Forneça uma tabela que apresente a região para cada representante de vendas, juntamente com suas contas associadas.
+Desta vez, apenas para a região Centro-Oeste. Ordene as contas em ordem alfabética (A-Z) de acordo com o nome da conta.*/
 
---As we want the region name, the sales rep name and the account name, we have to work with 3 tables: regions, sales_reps and accounts
---So we select the name column from the regions table, the name column from the sales_reps table and the name column from the accounts table
---Then we join the region table with the sales_reps table and that with the account tables
--- As we only want the Midwest region, we filter with a where clause
--- And finally we sort by the account name 
+-- Como queremos o nome da região, o nome do representante de vendas e o nome da conta, precisamos trabalhar com 3 tabelas: regiões, representantes de vendas e contas
+-- Selecionamos a coluna "name" da tabela de regiões, a coluna "name" da tabela de representantes de vendas e a coluna "name" da tabela de contas
+-- Em seguida, fazemos um join entre a tabela de regiões e a tabela de representantes de vendas, e depois entre essa junção e a tabela de contas
+-- Como queremos apenas a região Centro-Oeste, filtramos com uma cláusula "where"
+-- E, por fim, ordenamos pelo nome da conta
+
 
 SELECT r.name as Region, sr.name as Rep_name, ac.name as account_name
 FROM region r JOIN sales_reps sr ON r.id=sr.region_id JOIN accounts ac ON sr.id=ac.sales_rep_id
@@ -15,12 +16,13 @@ ORDER BY ac.name ASC
 
 
 
-/*2.Provide a table that provides the region for each sales_rep along with their associated accounts.
-This time only for accounts where the sales rep has a first name starting with S and in the Midwest region.
-Sort the accounts alphabetically (A-Z) according to account name.*/
+/*2. Forneça uma tabela que apresente a região para cada representante de vendas, juntamente com suas contas associadas.
+Desta vez, apenas para contas em que o nome do representante de vendas começa com S e na região Centro-Oeste.
+Ordene as contas em ordem alfabética (A-Z) de acordo com o nome da conta.*/
 
---Here we add another condition; the first name of the sales rep name should starts with an S.
---Therefore, in the where clause we add one more condition
+-- Aqui adicionamos outra condição: o primeiro nome do representante de vendas deve começar com S.
+-- Portanto, na cláusula "where", adicionamos mais uma condição.
+
 
 SELECT r.name as Region, sr.name as Rep_name, ac.name as account_name
 FROM region r JOIN sales_reps sr ON r.id=sr.region_id JOIN accounts ac ON sr.id=ac.sales_rep_id
@@ -30,12 +32,13 @@ ORDER BY ac.name ASC
 
 
 
-/*3. Provide a table that provides the region for each sales_rep along with their associated accounts.
-This time only for accounts where the sales rep has a last name starting with K and in the Midwest region.
-Sort the accounts alphabetically (A-Z) according to account name.*/
+/*3. Forneça uma tabela que apresente a região para cada representante de vendas, juntamente com suas contas associadas.
+Desta vez, apenas para contas em que o sobrenome do representante de vendas começa com K e na região Centro-Oeste.
+Ordene as contas em ordem alfabética (A-Z) de acordo com o nome da conta.*/
 
--- In this one, the sales rep last name should starts with a K
---Hence, we replace the second condition we had with another one that extracts the records that fullfill the condition above
+-- Nesta consulta, o sobrenome do representante de vendas deve começar com K
+-- Portanto, substituímos a segunda condição que tínhamos por outra que extrai os registros que atendem a essa condição acima
+
 
 SELECT r.name as Region, sr.name as Rep_name, ac.name as account_name
 FROM region r JOIN sales_reps sr ON r.id=sr.region_id JOIN accounts ac ON sr.id=ac.sales_rep_id
@@ -45,25 +48,27 @@ ORDER BY ac.name ASC
 
 
 
-/*4. Provide the name for each region for every order, as well as the account name and the unit price they paid
-(total_amt_usd/total) for the order. However, you should only provide the results if the standard order quantity exceeds 100.
-In order to avoid a division by zero error, adding .01 to the denominator here is helpful total_amt_usd/(total+0.01).*/
+/*4. Forneça o nome de cada região para cada pedido, bem como o nome da conta e o preço unitário que pagaram
+(total_amt_usd/total) pelo pedido. No entanto, você deve fornecer os resultados apenas se a quantidade padrão do pedido for superior a 100.
+Para evitar um erro de divisão por zero, adicionar 0,01 ao denominador aqui é útil total_amt_usd/(total+0,01).*/
 
---We want the region, the account name, and the unit price; so we are going to work with the region, the accounts and the orders tables
---We also going to need the sales_reps table to join the tables mentioned above
---And then, we add a condition: we only want the orders with more than 100 standard paper
+-- Queremos a região, o nome da conta e o preço unitário; portanto, vamos trabalhar com as tabelas de região, contas e pedidos
+-- Também precisaremos da tabela de representantes de vendas para fazer o join entre as tabelas mencionadas acima
+-- E, em seguida, adicionamos uma condição: queremos apenas os pedidos com mais de 100 unidades de papel padrão
+
 SELECT r.name AS region, ac.name AS account_name, o.total_amt_usd/(o.total + 0.01) AS unit_price
 FROM region r JOIN sales_reps sr ON r.id=sr.region_id JOIN accounts ac ON sr.id=ac.sales_rep_id JOIN orders o ON ac.id = o.account_id
 WHERE o.standard_qty > 100
 
 
 
-/*5. Provide the name for each region for every order, as well as the account name and the unit price they paid (total_amt_usd/total)
-for the order. However, you should only provide the results if the standard order quantity exceeds 100 and the poster order quantity
-exceeds 50. Sort for the smallest unit price first.*/
+/*5. Forneça o nome de cada região para cada pedido, bem como o nome da conta e o preço unitário que pagaram (total_amt_usd/total)
+pelo pedido. No entanto, você deve fornecer os resultados apenas se a quantidade padrão do pedido for superior a 100 e a quantidade de pôsteres
+for superior a 50. Ordene pelo menor preço unitário primeiro.*/
 
---To the query above we add a new condition: the  orders with more than 100 standard papers and with more than 50 poster papers
---And then we sort the table to visualize the account name with the lowest unit price 
+-- Para a consulta acima, adicionamos uma nova condição: queremos apenas os pedidos com mais de 100 unidades de papel padrão e mais de 50 unidades de papel de pôster
+-- E, em seguida, ordenamos a tabela para visualizar o nome da conta com o menor preço unitário
+
 SELECT r.name as region, ac.name as account_name, o.total_amt_usd/(o.total + 0.01) as unit_price
 FROM region r JOIN sales_reps sr ON r.id=sr.region_id JOIN accounts ac ON sr.id=ac.sales_rep_id JOIN orders o ON ac.id = o.account_id
 WHERE o.standard_qty > 100 AND o.poster_qty > 50
@@ -71,10 +76,12 @@ ORDER BY unit_price ASC
 
 
 
-/*6. Provide the name for each region for every order, as well as the account name and the unit price they paid (total_amt_usd/total)
-for the order. However, you should only provide the results if the standard order quantity exceeds 100 and the poster order quantity
-exceeds 50.  Sort for the largest unit price first.*/
---Here we sort the table to visualize the account name with the highest unit price 
+/*6. Forneça o nome de cada região para cada pedido, bem como o nome da conta e o preço unitário que pagaram (total_amt_usd/total)
+pelo pedido. No entanto, você deve fornecer os resultados apenas se a quantidade padrão do pedido for superior a 100 e a quantidade de pôsteres
+for superior a 50. Ordene pelo maior preço unitário primeiro.*/
+
+-- Aqui ordenamos a tabela para visualizar o nome da conta com o maior preço unitário
+
 SELECT r.name as region, ac.name as account_name, o.total_amt_usd/(o.total + 0.01) as unit_price
 FROM region r JOIN sales_reps sr ON r.id=sr.region_id JOIN accounts ac ON sr.id=ac.sales_rep_id JOIN orders o ON ac.id = o.account_id
 WHERE o.standard_qty > 100 AND o.poster_qty > 50
@@ -82,13 +89,14 @@ ORDER BY unit_price DESC
 
 
 
-/*7. For each account, determine the average amount of each type of paper they purchased across their orders.*/
+/*7. Para cada conta, determine a quantidade média de cada tipo de papel que eles compraram em seus pedidos.*/
 
---We need the column name of the accounts table, and the mean of each type of paper each one of the accounts purchased
---Thus, we apply the aggregate function avg() in each type of paper
---As we want the account name and the mean of each type of paper each one of the accounts purchased across their orders
---we join the accounts table with the orders table
---Lastly we group by the account_name
+-- Precisamos do nome da coluna da tabela de contas e da média de cada tipo de papel que cada uma das contas comprou
+-- Assim, aplicamos a função de agregação avg() em cada tipo de papel
+-- Como queremos o nome da conta e a média de cada tipo de papel que cada uma das contas comprou em seus pedidos
+-- fazemos um join entre a tabela de contas e a tabela de pedidos
+-- Por fim, agrupamos pelo nome da conta
+
 
 SELECT ac.name AS account_name, AVG(o.standard_qty) AS average_standard_qty, AVG(o.gloss_qty) AS average_gloss_qty, 
 AVG(o.poster_qty) AS average_poster_qty, AVG(total) as average_total
@@ -99,15 +107,16 @@ ORDER BY average_standard_qty DESC
 
 
 
-/*8. For each account, determine the average amount spent per order on each paper type. */
+/*8. Para cada conta, determine o valor médio gasto por pedido em cada tipo de papel.*/
 
---Here we do the same but we apply the avg() function on the amount spent on each paper type
+-- Aqui fazemos o mesmo, mas aplicamos a função avg() no valor gasto em cada tipo de papel
+
 SELECT ac.name AS account_name, AVG(o.standard_amt_usd) AS avg_standard_amt_usd, AVG(o.gloss_amt_usd) AS avg_gloss_amt_usd,
 AVG(o.poster_amt_usd) AS avg_poster_amt_usd
 FROM accounts ac JOIN orders o ON ac.id=o.account_id 
 GROUP BY ac.name
 
---In the next query we can visualize the account_name that had spend the most 
+--Nesta query podemos visualizar qual account_name mais gastou
 SELECT ac.name AS account_name, AVG(o.standard_amt_usd) AS avg_standard_amt_usd, AVG(o.gloss_amt_usd) AS avg_gloss_amt_usd,
 AVG(o.poster_amt_usd) AS avg_poster_amt_usd, AVG(o.standard_amt_usd)+AVG(o.gloss_amt_usd)+AVG(o.poster_amt_usd) as total
 FROM accounts ac JOIN orders o ON ac.id=o.account_id 
@@ -116,17 +125,18 @@ ORDER BY total DESC
 
 
 
-/*9. Determine the number of times a particular channel was used in the web_events table for each sales rep. 
-Order your table with the highest number of occurrences first.*/
+/*9. Determine o número de vezes que um canal específico foi usado na tabela web_events para cada representante de vendas.
+Ordene sua tabela com o maior número de ocorrências primeiro.*/
 
---We want the sales rep name, the channel and the number of occurrences of these channels so we will work with web_events table, the sales_reps table
---and inderectly with the accounts table
---Therefore, we select the name column from the sales_reps table, the channel column from the web_events table and we apply de count() function
---to the channels
---Then, as we are working with the web_events and sales_reps tables we want to join them. But the only way to do this is through the
---accounts table, so we do that.
---We group by the sales rep name and the channel
---And finally we sort by the number of ocurrences 
+-- Queremos o nome do representante de vendas, o canal e o número de ocorrências desses canais, portanto, trabalharemos com a tabela web_events, a tabela sales_reps
+-- e indiretamente com a tabela accounts
+-- Portanto, selecionamos a coluna name da tabela sales_reps, a coluna channel da tabela web_events e aplicamos a função count()
+-- aos canais
+-- Em seguida, como estamos trabalhando com as tabelas web_events e sales_reps, queremos uni-las. Mas a única maneira de fazer isso é através da
+-- tabela accounts, então fazemos isso.
+-- Agrupamos pelo nome do representante de vendas e pelo canal
+-- E finalmente ordenamos pelo número de ocorrências
+ 
 
 SELECT sr.name AS sales_rep_name, we.channel AS channel, count(channel) AS number_of_occurrences
 FROM web_events we JOIN accounts ac ON we.account_id=ac.id JOIN sales_reps sr ON ac.sales_rep_id=sr.id
@@ -136,15 +146,16 @@ ORDER BY number_of_occurrences DESC
 
 
 
-/*10. When we look at the yearly totals, you might notice that 2013 and 2017 have much smaller totals than all other years.
-If we look further at the monthly data, we see that for 2013 and 2017 there is only one month of sales for each of these years
-(12 for 2013 and 1 for 2017). Therefore, neither of these are evenly represented. Sales have been increasing year over year, 
-with 2016 being the largest sales to date. At this rate, we might expect 2017 to have the largest sales.*/
+/*10. Quando olhamos para os totais anuais, podemos perceber que 2013 e 2017 têm totais muito menores do que todos os outros anos.
+Se olharmos mais detalhadamente os dados mensais, veremos que para 2013 e 2017 há apenas um mês de vendas para cada um desses anos
+(12 meses para 2013 e 1 mês para 2017). Portanto, nenhum deles está representado de forma equilibrada. As vendas têm aumentado ano após ano,
+com 2016 sendo o ano de maiores vendas até o momento. Com base nessa tendência, podemos esperar que 2017 tenha as maiores vendas.*/
 
---Here we can see the yearly totals
---We extract the year of the occurred_at column from the orders table and apply the sum() function to the total_amt_usd also from de orders table
---Group by year and lastly sort it by the total_usd column
---We can see sales have been increasing year over year
+-- Aqui podemos ver os totais anuais
+-- Extraímos o ano da coluna occurred_at da tabela orders e aplicamos a função sum() ao total_amt_usd também da tabela orders
+-- Agrupamos por ano e, por fim, ordenamos pela coluna total_usd
+-- Podemos ver que as vendas têm aumentado ano após ano
+
 
 SELECT EXTRACT(YEAR FROM occurred_at) AS year,  SUM(total_amt_usd) AS total_usd
 FROM orders
@@ -153,10 +164,11 @@ ORDER BY total_usd ASC
 
 
 
---In this one we can see the total by year and month
---AS we did earier, we extract the year of the occurred_at column and we also extract the month.
---We group by year and month
---We can observe that for 2013 and 2017 there is only one month of sales for each of these years
+-- Neste, podemos ver o total por ano e mês
+-- Como fizemos anteriormente, extraímos o ano da coluna occurred_at e também o mês.
+-- Agrupamos por ano e mês
+-- Podemos observar que para 2013 e 2017 há apenas um mês de vendas para cada um desses anos
+
 
 SELECT EXTRACT(YEAR FROM occurred_at) AS year, EXTRACT(MONTH FROM occurred_at) AS month, SUM(total_amt_usd) AS total_usd
 FROM orders
@@ -166,10 +178,10 @@ ORDER BY year
 
 
 
---Here we extract the day too
---We take the records from the 2017 year
---We can visualize the total for each day of the month
---We observe that for the 2017 year we only have the first and second day of January 
+-- Aqui também extraímos o dia
+-- Pegamos os registros do ano de 2017
+-- Podemos visualizar o total para cada dia do mês
+-- Observamos que, para o ano de 2017, temos apenas o primeiro e o segundo dia de janeiro
 
 SELECT EXTRACT(YEAR FROM occurred_at) AS year, EXTRACT(MONTH FROM occurred_at) AS month,  EXTRACT(DAY FROM occurred_at) AS day,
 SUM(total_amt_usd) AS total_usd
@@ -180,9 +192,9 @@ ORDER BY total_usd ASC
 
 
 
---Here we compare the total in January 1rst 2017 with the others years
---We add more conditions so we can visualize what we mentioned above
---At this rate, we might expect 2017 to have the largest sales
+-- Aqui comparamos o total em 1º de janeiro de 2017 com os outros anos
+-- Adicionamos mais condições para que possamos visualizar o que mencionamos acima
+-- Com base nessa tendência, podemos esperar que 2017 tenha as maiores vendas
 
 SELECT EXTRACT(YEAR FROM occurred_at) AS year, EXTRACT(MONTH FROM occurred_at) AS month,  EXTRACT(DAY FROM occurred_at) AS day,
 SUM(total_amt_usd) AS total_usd
@@ -207,14 +219,14 @@ FROM CTE_GROWTH
 
 
 
-/*11. In which month of which year did Walmart spend the most on gloss paper in terms of dollars?*/
+/*11. Em qual mês de qual ano a Walmart gastou mais em papel brilhante em termos de dólares?*/
 
---We select the name account from the accounts table, extract the year and month from occurre_at column and apply the sum() function
--- to the gloss_amt_usd column from the orders table  
---We join the accounts table with the orders table because we need information from both tables
---And we only want what Walmart spend so we add a condition with the where clause
---Then we group by account_name, year and month
---And we order all by total spend on gloss paper and as we only want the year and month Walmart spend the most, we take only the first row.
+-- Selecionamos o nome da conta da tabela accounts, extraímos o ano e o mês da coluna occurred_at e aplicamos a função sum()
+-- à coluna gloss_amt_usd da tabela orders
+-- Fazemos um join entre a tabela accounts e a tabela orders porque precisamos de informações de ambas as tabelas
+-- E queremos apenas o que a Walmart gastou, então adicionamos uma condição com a cláusula where
+-- Em seguida, agrupamos por account_name, ano e mês
+-- E ordenamos tudo pelo total gasto em papel brilhante, e como queremos apenas o ano e o mês em que a Walmart gastou mais, pegamos apenas a primeira linha.
 
 SELECT ac.name AS account_name,  EXTRACT(YEAR FROM o.occurred_at) AS year, EXTRACT(MONTH FROM o.occurred_at) AS month, SUM(o.gloss_amt_usd) AS gloss_total_usd
 FROM accounts ac JOIN orders o ON ac.id=o.account_id
