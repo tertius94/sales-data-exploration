@@ -1,19 +1,19 @@
-# Sales Data Exploration
+# Exploração de dados de vendas.
 
-## Introduction
-Sales analysis over a PostgreSQL database, aiming to discover diverse insights. Identify best seller products, biggest customers, and sales growth rate.
+## Introdução
+Análise de vendas em um banco de dados PostgreSQL, com o objetivo de descobrir insights diversos. Identificar os produtos mais vendidos, os maiores clientes e a taxa de crescimento das vendas.
 
-In this database, we have records of orders for different types of paper placed by companies such as Walmart, Microsoft, among others. We can see how much of each type of paper was ordered, how much was spent, who was responsible for the order, in which region the company is located, and the dates of the different web events each company has conducted 
+Neste banco de dados, temos registros de pedidos de diferentes tipos de papel feitos por empresas como Walmart, Microsoft, entre outras. Podemos ver quanto de cada tipo de papel foi encomendado, quanto foi gasto, quem foi responsável pelo pedido, em qual região a empresa está localizada e as datas dos diferentes eventos da web realizados por cada empresa.
 
-A SQL analysis of sales on differents types of paper.
+Uma análise SQL das vendas em diferentes tipos de papel.
 * [Sales Analysis](https://github.com/jenny-4/sales-data-exploration/blob/main/sales-analysis.md)
 
 ## Datasets used
-- <strong>accounts</strong>: This table contains all the different companies, their id (account_id), website, contact of point and the sale representative id
-- <strong>orders</strong>: Timestamp of every order, the quantity ordered of every type of paper (standard_qty, gloss_qty, poster_qty), the total, how much money was spend in each type of paper (standard_amt_usd, gloss_amt_usd, poster_amt_usd) and the total in dollars.
-- <strong>region</strong>: Four regions: Northeast, Midwest, Southeast, West
-- <strong>sales_reps</strong>: This table shows all the sales representative names with their corresponding id and region_id.
-- <strong>web_events</strong>: All the web events conducted by each company, the account_id, the date each web event was conducted and the channel (facebook, twitter, etc)
+- <strong>accounts</strong>:  Esta tabela contém todas as diferentes empresas, seus IDs (account_id), site, ponto de contato e o ID do representante de vendas.
+- <strong>orders</strong>: Timestamp de cada pedido, a quantidade encomendada de cada tipo de papel (standard_qty, gloss_qty, poster_qty), o total, quanto dinheiro foi gasto em cada tipo de papel (standard_amt_usd, gloss_amt_usd, poster_amt_usd) e o total em dólares.
+- <strong>region</strong>:  Quatro regiões: Nordeste, Centro-Oeste, Sudeste, Oeste
+- <strong>sales_reps</strong>:  Esta tabela mostra todos os nomes dos representantes de vendas com seus respectivos IDs e IDs de região.
+- <strong>web_events</strong>: Todos os eventos da web realizados por cada empresa, o ID da conta, a data em que cada evento da web foi realizado e o canal (Facebook, Twitter, etc).
 
 ## Entity Relationship Diagram
 ![alt text](https://github.com/jenny-4/sales-data-exploration/blob/main/ERD.png)
