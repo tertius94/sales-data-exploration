@@ -208,7 +208,7 @@ Sabendo que o preço da unidade é importante pois permite ao comprador entender
 
 Nós podemos também usar o preõ da unidade para ter uma ideia do custo de produção para um certo tipo de papel. Similarmente, podemos comparar o preço da unidade com o dos competidores.
 
-## Conclusions
+## Conclusão
 1. Ano a ano houve um aumento estável de vendas com um aumento de mais de 100% de 2016 à 2017
 2. É esperado que em 2017 tenha a maior quantidade de vendas
 3. O maior cliente é *Pacific Life* seguido por *Fidelity National Financial.*
