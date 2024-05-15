@@ -1,6 +1,6 @@
-# Sales Analysis
+# Análise de vendas.
 
-Firstable lets see how much we sale per year
+A primeira coisa que iremos fazer é verificar quanto vendemos por ano.
 
 ````sql
 SELECT EXTRACT(YEAR FROM occurred_at) AS year, SUM(total_amt_usd) AS total_usd
@@ -17,10 +17,9 @@ year|total_usd  |
 2015|5752004.94 |
 2016|12864917.92|
 
+Obervamos as vendas vem crescendo a cada ano com 2016 sendo o melhor ano do total de vendas, exceto por 2013 e 2017, onde houveram menos vendas. 
 
-We observe that in 2013 and 2017 there were less sales, but except for them, sales have been increasing year after year and that 2016 is the year with the most sales.
-
-The next table shows that for 2013 and 2017 there is only one month of sales for each of these years.
+A próxima tabela nos mostra que em 2013 e 2017 houve apenas um mês de venda, o que explica não haver crescimento nesses anos.
 
 ````sql
 SElECT EXTRACT(YEAR FROM occurred_at) AS year, 
@@ -38,7 +37,7 @@ year|month|total_usd|
 
 
 
-If we dig a little deeper, we can see that only two days are registered in 2017, the first and second day of January.
+Olhando mais a fundo, percebemos que apenas houve apenas 2 dias de venda em 2017. Os dias primeiro e segundo de janeiro.
 
 ````sql
 SElECT EXTRACT(YEAR FROM occurred_at) AS year, 
@@ -55,9 +54,7 @@ year|month|day|total_usd|
 2017|1    |2  |6451.76  |
 2017|1    |1  |71699.67 |
 
-
-Now we compare the total in January 1rst of  every year. 
-Note that year-on-year there has been a steady increase in sales. 
+Comparando o dia primeiro de janeiro de cada ano, percebe-se um aumento contínuo no aumento das vendas.
 
 ````sql
 SELECT EXTRACT(YEAR FROM occurred_at) AS year, EXTRACT(MONTH FROM occurred_at) AS month,  EXTRACT(DAY FROM occurred_at) AS day,
@@ -76,7 +73,8 @@ year|month|day|total_usd|
 2017|1    |1  |71699.67 |
 
 
-In the table below we can see how much our sales grew by year
+Na tabela a baixo veremos o quanto as vendas cresceu a cada ano.
+
 ````sql
 WITH CTE_GROWTH AS 
 (SELECT EXTRACT(YEAR FROM occurred_at) AS year, EXTRACT(MONTH FROM occurred_at) AS month,  EXTRACT(DAY FROM occurred_at) AS day,
@@ -98,9 +96,9 @@ year|month|day|total_usd|growth  |percentage_growth        |
 2016|1    |1  |28256.34	|5020.55 |21.60696924873223591700  |
 2017|1    |1  |71699.67	|43443.33|153.7471944349480500     |
 
-From 2016 to 2017 our sales grew 153\%.
+De 2016 à 2017 as vendas cresceram 153\%.
 
-For each account we determine the average amount of each type of paper each company purchased across their orders.
+Para cada conta, determinamos a quantidade média de cada tipo de papel que cada empresa comprou em todos os seus pedidos.
 
 ````sql
 SELECT ac.name AS account_name, AVG(o.standard_qty) AS average_standard_qty, AVG(o.gloss_qty) AS average_gloss_qty, AVG(o.poster_qty) AS average_poster_qty, AVG(total) as average_total
@@ -117,10 +115,9 @@ Berkshire Hathaway       |1148.0000000000000000|0.000000000000000000|215.0000000
 Edison International     |756.6000000000000000 |25.2000000000000000	|423.4000000000000000|1205.2000000000000000|
 Core-Mark Holding        |743.1607142857142857 |35.4821428571428571	|20.4642857142857143 |799.1071428571428571 |
 
+A empresa que comprou uma maior quantidade de papel foi *State Farm Insurance Cos.*
 
-The company that has bought us more quantity of paper is *State Farm Insurance Cos.*
-
-Now we determine the average amount spent per order on each paper type. 
+Vamos calcular a quantia média gasta por pedido para cada tipo de papel.
 
 ````sql
 SELECT ac.name AS account_name, AVG(o.standard_amt_usd) AS avg_standard_amt_usd, AVG(o.gloss_amt_usd) AS avg_gloss_amt_usd,
@@ -139,12 +136,12 @@ State Farm Insurance Cos.  |9439.9711111111111111|1761.8144444444444444	|1221.60
 AmerisourceBergen          |888.2200000000000000 |1964.2525000000000000	|6832.9800000000000000|9685.4525000000000000    |
 
 
-From the table above we observe that *Pacific Life* is the company who has bought us the most, followed by  *Fidelity National Financial.*
-With an analogous procedure we obtain the companies that have bought the least from us. In this case,  *Nike.*
+Na tabela acima observamos que a empresa *Pacific Life* foi a que mais comprou, seguida por *Fidelity National Financial.*
+Com um comando análogo, observamos a empresa que menos comprou papel, neste caso, a *Nike.*
 
-Also, if we are interested in a specific type of paper, we can sort the previous table; for example, let's say we are interested in standard  paper, then we sort by the avg_standard_amt_usd column, and in this way, we can see who has spent the most on that type of paper.
+Se estivermos interessado em um tipo específico de papel, nós podemos ordernar a tabela anterior. Supomos que estamos interessando em Standard paper, então ordenamos por avg_standard_amt_usd, dessa forma, podemos ver qual empresa mais gastou nesse tipo de papel.
 
-For now, lets see how much paper we have sold.
+Por hora, vamos verificar quanto de papel foi vendido.
 
 ````sql
 SELECT SUM(standard_qty) AS total_standard_qty, 
@@ -170,9 +167,9 @@ total_standard_usd|total_gloss_usd |total_poster_usd|
 ------------------|----------------|----------------|
 9672346.54	      |7593159.77      |5876005.52      |
 
-From the two tables above we observe that the paper that has sold the most is standard paper.
+Das duas tabelas acima, temos que o tipo de papel mais vendido é o Standard paper
 
-Let's say we want to know the unit price that each company paid per order, but only for those  that have bought more than 100 standard type papers and 50 poster papers.
+Vamos verificar o preço da unidade que cada empresa pagou por pedido, mas apenas daquelas que compraram mais de 100 standard papers e 50 poster papers.
 
 ````sql
 SELECT r.name as region, ac.name as account_name, o.total_amt_usd/(o.total + 0.01) as unit_price
@@ -205,19 +202,18 @@ West     |Pacific Life               |8.0630226525147913|
 Northeast|CHS                        |8.0188493267801133|
 West     |Fidelity National Financial|7.9928024668468328|
 
-The lowest unit price is 5.11 USD and corresponds to *State Farm Insurance Cos.*, while the highest unit price is 8.08 USD, which corresponds to *IBM.*
+O menor preço da unidade foi de 5.11 USD que corresponde a *State Farm Insurance Cos.*, enquanto o maior preço da unidade foi de 8.08 USD, correspondente a *IBM.*
 
-Knowing the unit price is important because it allows the buyer to understand how the total sales amount was calculated. That is, it is a matter of transparency and providing all the necessary information to the customer.
+Sabendo que o preço da unidade é importante pois permite ao comprador entender como o total de vendas foi calculado. Isto é, é uma questão de transparência prover toda informação necessária para o consumidor.
 
-We could also use this unit price to get an idea of the cost of producing a certain type of paper. Similarly, we can compare this unit price with that of our competitors.
+Nós podemos também usar o preõ da unidade para ter uma ideia do custo de produção para um certo tipo de papel. Similarmente, podemos comparar o preço da unidade com o dos competidores.
 
 ## Conclusions
-1. Year-on-year there has been a steady increase in sales with a surge of over 100\% from 2016 to 2017.
-2. We expect 2017 to have the largest sales.
-3. Our biggest client is *Pacific Life* followed by *Fidelity National Financial.*
-4. The paper that has sold the most is standard type paper.
-5. The highest unit price is 8.08 USD, which corresponds to *IBM.*
-
+1. Ano a ano houve um aumento estável de vendas com um aumento de mais de 100% de 2016 à 2017
+2. É esperado que em 2017 tenha a maior quantidade de vendas
+3. O maior cliente é *Pacific Life* seguido por *Fidelity National Financial.*
+4. O tipo de papel mais vendido é o standard paper
+5. O maior preço unitário é de 8.08 USD correspondente a *IBM.*
 
 
 
